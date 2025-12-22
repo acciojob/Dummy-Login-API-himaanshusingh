@@ -65,18 +65,18 @@ const App = () => {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: "12px" }}>
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <label htmlFor="input-email">Email</label>
+          <input id="input-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <div id="user-error" style={{ color: "red", fontSize: "12px", minHeight: "16px" }}>{userError}</div>
         </div>
 
         <div style={{ marginBottom: "12px" }}>
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <label htmlFor="input-password">Password</label>
+          <input id="input-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <div id="password-error" style={{ color: "red", fontSize: "12px", minHeight: "16px" }}>{passwordError}</div>
         </div>
 
-        <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Please wait..." : "Login"}</button>
+        <button id="submit-form-btn" type="submit" disabled={isSubmitting}>{isSubmitting ? "Please wait..." : "Login"}</button>
       </form>
     </div>
   ); // prettier-ignore
