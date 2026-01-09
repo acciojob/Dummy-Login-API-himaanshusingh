@@ -63,8 +63,8 @@ const App = () => {
         onChange={handleChange}
       />
       <button id="submit-form-btn">Login</button>
-      {userError && <p id="user-error">{userError}</p>}
-      {passwordError && <p id="password-error">{passwordError}</p>}
+      <p id="user-error">{userError}</p>
+      <p id="password-error">{passwordError}</p>
     </form>
   );
 };
