@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const users = [
+const userData = [
   {
     id: 1,
     name: "ABC",
@@ -22,64 +22,51 @@ const users = [
 ];
 
 const App = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userError, setUserError] = useState(""); // for "User not found"
-  const [passwordError, setPasswordError] = useState(""); // for "Password Incorrect"
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [user, setUser] = useState({ email: "", password: "" });
+  const [userError, setUserError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const { email, password } = user;
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setUserError("");
+    setPasswordError("");
+    setUser((prev) => ({ ...prev, [name]: value }));
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    setUserError("");
-    setPasswordError("");
-    setIsSubmitting(true);
-
-    // Simulate dummy API call
-    setTimeout(() => {
-      const user = users.find((u) => u.email === email);
-
-      if (!user) {
-        const err = { message: "User not found" };
-        console.log(err); // error case
-        setUserError("User not found");
-        setIsSubmitting(false);
-        return;
-      }
-
-      if (user.password !== password) {
-        const err = { message: "Password Incorrect" };
-        console.log(err); // error case
-        setPasswordError("Password Incorrect");
-        setIsSubmitting(false);
-        return;
-      }
-
-      console.log(user);
-      setIsSubmitting(false);
-    }, 3000);
+    const existedUser = userData.find((user) => user.email === email);
+    const isPasswordTrue = existedUser?.password === password;
+    if (existedUser) setTimeout(() => console.log(userData), 3000);
+    if (!existedUser) return setUserError("User not found");
+    if (!isPasswordTrue) return setPasswordError("Password Incorrect");
   }
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "12px" }}>
-          <label htmlFor="input-email">Email</label>
-          <input id="input-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <div id="user-error" style={{ color: "red", fontSize: "12px", minHeight: "16px" }}>{userError}</div>
-        </div>
-
-        <div style={{ marginBottom: "12px" }}>
-          <label htmlFor="input-password">Password</label>
-          <input id="input-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <div id="password-error" style={{ color: "red", fontSize: "12px", minHeight: "16px" }}>{passwordError}</div>
-        </div>
-
-        <button id="submit-form-btn" type="submit" disabled={isSubmitting}>{isSubmitting ? "Please wait..." : "Login"}</button>
-      </form>
-    </div>
-  ); // prettier-ignore
+    <form onSubmit={handleSubmit}>
+      <input
+        type="email"
+        id="input-email"
+        name="email"
+        value={email}
+        placeholder="Email:"
+        onChange={handleChange}
+      />
+      <input
+        type="password"
+        id="input-password"
+        name="password"
+        value={password}
+        placeholder="Password:"
+        onChange={handleChange}
+      />
+      <button id="submit-form-btn">Login</button>
+      {userError && <p id="user-error">{userError}</p>}
+      {passwordError && <p id="password-error">{passwordError}</p>}
+    </form>
+  );
 };
 
 export default App;
